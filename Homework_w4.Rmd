@@ -3,6 +3,8 @@ title: "GIS homework 4"
 author: "DB"
 date: "29/10/2021"
 output:
+  pdf_document: 
+    latex_engine: xelatex
   word_document: default
   html_document:
     df_print: paged
@@ -33,12 +35,10 @@ library(janitor)
 library(here)
 library(countrycode)
 # install.packages("countrycode")
-install.packages("rmarkdown")
-install.packages("LaTeX")
-install.packages("knitr")
+
 
 ```
-# Read in data:
+## Read in data:
 
 Located within the Data folder:
 
@@ -53,6 +53,20 @@ GII <- read_csv(here::here("Data","Gender Inequality Index (GII).csv"),
                 skip=5)
 
 Worldmap <- st_read(here::here("Data","World_Countries_(Generalized)","World_Countries__Generalized_.shp"))
+
+```
+
+## column names
+
+```{r columns}
+
+GIIcols <- GII %>%
+  clean_names %>%
+  select(country,x2019,x2010)%>%
+  mutate(difference=x2019-x2010) %>%
+  slice(1:189,)%>%
+  mutate(iso_code=countrycode(country, origin = 'country.name', destination = 'iso2c'))
+
 
 ```
 
