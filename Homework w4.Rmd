@@ -1,0 +1,35 @@
+---
+title: "GIS homework 4"
+author: "DB"
+date: "29/10/2021"
+output: pdf_document
+---
+
+
+# Inequality task- Week 4
+Task: 
+Join the global gender inequality index to spatial data of the World, creating a new column of difference in inequality between 2010 and 2019
+
+## Reproduce
+
+```{r renv, eval=FALSE}
+
+# i have taken a snapshot with
+#renv::snapshot()
+#install the same packages
+#renv::restore()
+
+```
+
+### Read in the data:
+
+```{r}
+
+
+
+
+
+```
+
+
+
