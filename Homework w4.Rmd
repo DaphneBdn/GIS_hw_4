@@ -2,7 +2,10 @@
 title: "GIS homework 4"
 author: "DB"
 date: "29/10/2021"
-output: pdf_document
+output:
+  word_document: default
+  html_document:
+    df_print: paged
 ---
 
 
@@ -14,22 +17,42 @@ Join the global gender inequality index to spatial data of the World, creating a
 
 ```{r renv, eval=FALSE}
 
-# i have taken a snapshot with
+# take a snapshot with
 #renv::snapshot()
 #install the same packages
 #renv::restore()
 
 ```
 
-### Read in the data:
+# Load packages
 
-```{r}
-
-
-
-
+```{r packages}
+library(tidyverse)
+library(sf)
+library(janitor)
+library(here)
+library(countrycode)
+# install.packages("countrycode")
+install.packages("rmarkdown")
+install.packages("LaTeX")
+install.packages("knitr")
 
 ```
+# Read in data:
 
+Located within the Data folder:
 
+* GII (Gender Inequality Index) from: http://hdr.undp.org/en/indicators/68606#
+* Wold Shapefile from: https://hub.arcgis.com/datasets/2b93b06dc0dc4e809d3c8db5cb96ba69_0/explore?location=-2.688200%2C0.000000%2C1.41
+
+```{r read in data}
+
+GII <- read_csv(here::here("Data","Gender Inequality Index (GII).csv"),
+                locale = locale(encoding = "latin1"),
+                na="..",
+                skip=5)
+
+Worldmap <- st_read(here::here("Data","World_Countries_(Generalized)","World_Countries__Generalized_.shp"))
+
+```
 
