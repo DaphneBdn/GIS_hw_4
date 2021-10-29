@@ -70,3 +70,12 @@ GIIcols <- GII %>%
 
 ```
 
+#join the data
+
+```{r join}
+JoinGII <- Worldmap %>%
+  clean_names() %>%
+  left_join(.,GIIcols,
+            by = c("aff_iso"="iso_code"))
+```
+
