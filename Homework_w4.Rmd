@@ -69,7 +69,7 @@ GIIcols <- GII %>%
 
 ```
 
-#join the data
+## join the data
 
 ```{r join}
 JoinGII <- Worldmap %>%
@@ -78,7 +78,7 @@ JoinGII <- Worldmap %>%
             by = c("aff_iso"="iso_code"))
 ```
 
-#make the map
+## make a preliminary map
 
 ```{r preliminary plotting}
 library(tmap)
@@ -88,7 +88,7 @@ tmap_mode("plot")
 qtm(JoinGII,
     fill = "difference")
 ```
-#pick some colours
+## pick some colours
 
 ```{r colours}
 library(RColorBrewer)
@@ -97,7 +97,7 @@ library(shinyjs)
 tmaptools::palette_explorer()
 ```
 
-#nicer map
+## nicer map
 
 ```{r final map}
 
