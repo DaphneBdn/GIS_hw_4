@@ -47,12 +47,12 @@ Located within the Data folder:
 
 ```{r read in data}
 
-GII <- read_csv(here::here("Data","Gender Inequality Index (GII).csv"),
+GII <- read_csv(here::here("Gender Inequality Index (GII).csv"),
                 locale = locale(encoding = "latin1"),
                 na="..",
                 skip=5)
 
-Worldmap <- st_read(here::here("Data","World_Countries_(Generalized)","World_Countries__Generalized_.shp"))
+Worldmap <- st_read(here::here("World_Countries_(Generalized)","World_Countries__Generalized_.shp"))
 
 ```
 
@@ -67,15 +67,59 @@ GIIcols <- GII %>%
   slice(1:189,)%>%
   mutate(iso_code=countrycode(country, origin = 'country.name', destination = 'iso2c'))
 
-
 ```
 
-#join the data
+## join the data
 
 ```{r join}
 JoinGII <- Worldmap %>%
   clean_names() %>%
   left_join(.,GIIcols,
             by = c("aff_iso"="iso_code"))
+```
+
+## make a preliminary map
+
+```{r preliminary plotting}
+library(tmap)
+library(tmaptools)
+
+tmap_mode("plot")
+qtm(JoinGII,
+    fill = "difference")
+```
+## pick some colours
+
+```{r colours}
+library(RColorBrewer)
+library(shiny)
+library(shinyjs)
+tmaptools::palette_explorer()
+```
+
+## nicer map
+
+```{r final map}
+
+breaks = c(-0.2, -0.175, -0.15, -0.125, -0.1, -0.075, -0.05, -0.025, 0 )
+tm1<-tm_shape(JoinGII)+
+  tm_polygons("difference",
+              breaks=breaks,
+              palette="RdYlGn")+
+  tm_legend(show=FALSE)+
+  tm_layout(frame=FALSE)+
+  tm_credits("Difference in Gender Inequality Index between 2019 and 2010", position=c(0.2,0), size=0.75)
+
+legend <- tm_shape(JoinGII) +
+    tm_polygons("difference",
+                palette="RdYlGn") +
+    tm_scale_bar(position=c(0.2,0.1), text.size=0.6)+
+    tm_compass(north=0, position=c(0.55,0.1))+
+    tm_layout(legend.only = TRUE, legend.position=c(0.2,0.25),asp=0.1)+
+    tm_credits("(c) arcgis and undp", position=c(0.2,0.0))
+  
+t=tmap_arrange(tm1,legend, ncol=1)
+
+t
 ```
 
